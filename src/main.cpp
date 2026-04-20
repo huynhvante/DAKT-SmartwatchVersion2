@@ -57,19 +57,19 @@
 
 // HR
 #define BPM_HIST_SIZE_MAX   5
-#define BPM_MIN        40
-#define BPM_MAX        200
+#define BPM_MIN        50
+#define BPM_MAX        180
 
 // SpO2
 #define SPO2_WINDOW_SIZE  100
-#define SPO2_MIN           85
+#define SPO2_MIN          92
 #define SPO2_MAX          100
 
 // AGC
 #define AGC_DC_TARGET_LOW    25000.0f
 #define AGC_DC_TARGET_HIGH  45000.0f
 #define AGC_DC_OPTIMAL      100000.0f
-#define AGC_LED_MIN         0x3F
+#define AGC_LED_MIN         0x00
 #define AGC_LED_MAX         0xFF
 #define AGC_STEP_UP         0x08
 #define AGC_STEP_DOWN       0x04
@@ -382,7 +382,7 @@ static void rtcGetParts(char* timeBuf, size_t tLen, char* dateBuf, size_t dLen) 
     xSemaphoreTake(dtMutex, portMAX_DELAY);
     bool synced = g_rtc.synced;
     uint16_t yr=g_rtc.year; uint8_t mo=g_rtc.mon, dy=g_rtc.day;
-    uint8_t hh=g_rtc.hour, mm=g_rtc.min, ss=g_rtc.sec;
+    uint32_t hh=g_rtc.hour, mm=g_rtc.min, ss=g_rtc.sec;
     uint32_t sm=g_rtc.syncMillis;
     xSemaphoreGive(dtMutex);
 
@@ -522,7 +522,7 @@ static int32_t calcSpO2(){
     if(avgIR<1000.0f||avgRed<1000.0f) return 0;
     if(rmsIR<1.0f) return 0;
     float R    = (rmsRed/avgRed)/(rmsIR/avgIR);
-    float spo2 = 110.0f - 25.0f*R;
+    float spo2 = 110.0f - 17.0f*R;
     int32_t s=(int32_t)roundf(spo2);
     if(s<SPO2_MIN||s>SPO2_MAX) return 0;
     return s;
@@ -1164,7 +1164,6 @@ void setup() {
     Serial.printf("[BOOT] BTN2(GPIO%d)=Confirm/Measure (pull-up)\n", BTN_CONFIRM_PIN);
 }
 
-// ── LOOP — idle ───────────────────────────────────────────────
 void loop() {
     vTaskDelay(pdMS_TO_TICKS(1000));
 }

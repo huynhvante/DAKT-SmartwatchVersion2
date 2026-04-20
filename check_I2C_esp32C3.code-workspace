@@ -1,0 +1,27 @@
+{
+	"folders": [
+		{
+			"name": "check_I2C_esp32C3",
+			"path": "../../check_I2C_esp32C3"
+		},
+		{
+			"name": "VongTayESP32c3",
+			"path": "../VongTayESP32c3"
+		},
+		{
+			"name": "SmartwatchV1",
+			"path": "../SmartwatchV1"
+		},
+		{
+			"name": "testSmartWatch",
+			"path": "../testSmartWatch"
+		},
+		{
+			"name": "SmartWatchV2",
+			"path": "."
+		}
+	],
+	"settings": {
+		"powershell.cwd": "SmartWatchV2"
+	}
+}
